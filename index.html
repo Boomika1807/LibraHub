@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LibraHub - Library Management</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="#" data-page="home">📚 LibraHub</a>
+  <button class="menu-toggle" id="menuToggle">☰</button>
+  <nav id="mainNav">
+    <button class="nav-link active" data-page="home">Home</button>
+    <button class="nav-link" data-page="books">Books</button>
+    <button class="nav-link" data-page="issue">Issue / Return</button>
+    <button class="nav-link" data-page="records">Records</button>
+  </nav>
+</header>
+
+<main class="container">
+
+  <!-- PAGE 1: HOME -->
+  <section class="page active" id="home">
+    <div class="hero">
+      <div>
+        <p class="eyebrow">LIBRARY MANAGEMENT INTERFACE</p>
+        <h1>Discover Your<br><span>Next Great Book</span></h1>
+        <p class="hero-copy">
+          Manage books, search the catalogue, check availability,
+          and maintain issue and return records easily.
+        </p>
+        <div class="actions">
+          <button class="btn primary" data-page="books">
+            Explore Books →
+          </button>
+          <button class="btn secondary" data-page="issue">
+            Issue a Book
+          </button>
+        </div>
+      </div>
+      <div class="hero-art">
+        <div class="book-stack">
+          <span>READ</span>
+          <span>LEARN</span>
+          <span>GROW</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-heading">
+      <h2>Library Overview</h2>
+      <span class="muted">Live Summary</span>
+    </div>
+
+    <div class="stats">
+      <article class="stat-card">
+        <p>Total Copies</p>
+        <strong id="totalCount">0</strong>
+      </article>
+      <article class="stat-card">
+        <p>Available Copies</p>
+        <strong id="availableCount">0</strong>
+      </article>
+      <article class="stat-card">
+        <p>Issued Copies</p>
+        <strong id="issuedCount">0</strong>
+      </article>
+      <article class="stat-card">
+        <p>Book Titles</p>
+        <strong id="titleCount">0</strong>
+      </article>
+    </div>
+
+    <div class="next-row">
+      <span>Ready to manage your library?</span>
+      <button class="btn primary" data-page="books">
+        Next: Manage Books →
+      </button>
+    </div>
+  </section>
+
+  <!-- PAGE 2: BOOK MANAGEMENT -->
+  <section class="page" id="books">
+    <div class="page-heading">
+      <div>
+        <p class="eyebrow">YOUR COLLECTION</p>
+        <h1>Book Management</h1>
+        <p class="muted">Add, edit, search and delete book records.</p>
+      </div>
+      <button class="btn primary" id="showAddForm">+ Add Book</button>
+    </div>
+
+    <form class="book-form hidden" id="bookForm">
+      <h3 id="formHeading">Add a New Book</h3>
+      <input type="hidden" id="editId">
+
+      <div class="form-grid">
+        <label>Book Title
+          <input id="bookTitle" required placeholder="Book title">
+        </label>
+        <label>Author
+          <input id="bookAuthor" required placeholder="Author name">
+        </label>
+        <label>ISBN
+          <input id="bookISBN" required placeholder="ISBN number">
+        </label>
+        <label>Category
+          <select id="bookCategory">
+            <option>Programming</option>
+            <option>Science</option>
+            <option>Literature</option>
+            <option>History</option>
+            <option>Other</option>
+          </select>
+        </label>
+        <label>Total Quantity
+          <input id="bookQuantity" type="number" min="1"
+                 max="9999" value="1" required>
+        </label>
+      </div>
+
+      <div class="actions">
+        <button class="btn primary" type="submit">Save Book</button>
+        <button class="btn secondary" type="button" id="cancelForm">
+          Cancel
+        </button>
+      </div>
+    </form>
+
+    <div class="toolbar">
+      <input id="searchInput" type="search"
+             placeholder="Search title, author or ISBN...">
+      <select id="categoryFilter">
+        <option value="All">All Categories</option>
+        <option>Programming</option>
+        <option>Science</option>
+        <option>Literature</option>
+        <option>History</option>
+        <option>Other</option>
+      </select>
+      <select id="availabilityFilter">
+        <option value="All">All Availability</option>
+        <option value="Available">Available</option>
+        <option value="Issued">Fully Issued</option>
+      </select>
+    </div>
+
+    <div id="bookGrid" class="book-grid"></div>
+
+    <div class="next-row">
+      <span>Continue to issue or return books.</span>
+      <button class="btn primary" data-page="issue">
+        Next: Issue / Return →
+      </button>
+    </div>
+  </section>
+
+  <!-- PAGE 3: ISSUE AND RETURN -->
+  <section class="page" id="issue">
+    <div class="page-heading">
+      <div>
+        <p class="eyebrow">BORROWING DESK</p>
+        <h1>Issue & Return</h1>
+        <p class="muted">Manage borrowers and update book availability.</p>
+      </div>
+    </div>
+
+    <div class="two-columns">
+      <form class="panel" id="issueForm">
+        <h2>Issue a Book</h2>
+
+        <label>Borrower Name
+          <input id="borrowerName" required placeholder="Full name">
+        </label>
+        <label>Student ID
+          <input id="borrowerId" required placeholder="Student ID">
+        </label>
+        <label>Select Book
+          <select id="issueBookSelect" required></select>
+        </label>
+        <label>Issue Date
+          <input id="issueDate" type="date" required>
+        </label>
+        <label>Due Date
+          <input id="dueDate" type="date" required>
+        </label>
+
+        <button class="btn primary full" type="submit">
+          Confirm Issue
+        </button>
+      </form>
+
+      <form class="panel" id="returnForm">
+        <h2>Return a Book</h2>
+        <label>Issued Book Record
+          <select id="returnRecordSelect" required></select>
+        </label>
+
+        <div id="returnPreview" class="preview-box">
+          Select a record to view borrower details.
+        </div>
+
+        <button class="btn secondary full" type="submit">
+          Confirm Return
+        </button>
+      </form>
+    </div>
+
+    <div id="message" class="message hidden" role="status"></div>
+
+    <div class="next-row">
+      <span>Check your borrowing history.</span>
+      <button class="btn primary" data-page="records">
+        Next: View Records →
+      </button>
+    </div>
+  </section>
+
+  <!-- PAGE 4: RECORDS -->
+  <section class="page" id="records">
+    <div class="page-heading">
+      <div>
+        <p class="eyebrow">LIBRARY ACTIVITY</p>
+        <h1>Issue Records</h1>
+        <p class="muted">View borrower details and due dates.</p>
+      </div>
+      <button class="btn secondary" id="exportRecords">
+        Export CSV ↓
+      </button>
+    </div>
+
+    <div class="toolbar">
+      <input id="recordSearch" type="search"
+             placeholder="Search borrower, ID or book...">
+      <select id="recordStatus">
+        <option value="All">All Records</option>
+        <option value="Issued">Currently Issued</option>
+        <option value="Returned">Returned</option>
+      </select>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Book</th>
+            <th>Borrower</th>
+            <th>Student ID</th>
+            <th>Issue Date</th>
+            <th>Due Date</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="recordsBody"></tbody>
+      </table>
+    </div>
+
+    <div class="next-row">
+      <span>Manage your book catalogue again.</span>
+      <button class="btn primary" data-page="books">
+        Back to Books →
+      </button>
+    </div>
+  </section>
+
+  <footer>
+    © 2026 LibraHub | Library Management Interface
+  </footer>
+
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
